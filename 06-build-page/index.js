@@ -76,4 +76,18 @@ async function createProjectDistFolder() {
   }
 }
 
+async function saveTemplate() {
+  const templatePath = path.join(__dirname, 'template.html');
+
+  try {
+    // Read the content of the template file
+    const templateContent = await fs.readFile(templatePath, 'utf-8');
+    // Save the content to a variable
+    return templateContent;
+  } catch (error) {
+    console.error('Error reading template file:', error.message);
+    return null;
+  }
+}
+
 createProjectDistFolder();
