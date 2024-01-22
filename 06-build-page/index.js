@@ -90,4 +90,46 @@ async function saveTemplate() {
   }
 }
 
+function findTagNames(templateContent) {
+  // Use a regular expression to find all template tags
+  const tagRegex = /\{\{([^{}]+)\}\}/g;
+  const tagMatches = templateContent.match(tagRegex);
+
+  // Extract tag names from matches
+  const tagNames = tagMatches
+    ? tagMatches.map((match) => {
+        // Remove double curly braces and trim whitespaces
+        return match.slice(2, -2).trim();
+      })
+    : [];
+
+  return tagNames;
+}
+
+async function replaceTemplateTags(templateContent) {
+  // Iterate over each tag in the template content
+  for (const tagName of findTagNames(templateContent)) {
+    // Construct the path to the component file based on the tag name
+    const componentPath = path.join(__dirname, 'components', `${tagName}.html`);
+
+    try {
+      // Read the content of the component file
+      const componentContent = await fs.readFile(componentPath, 'utf-8');
+
+      // Replace the template tag with the component content in the template content
+      templateContent = templateContent.replace(
+        new RegExp(`\\{\\{${tagName}\\}\\}`, 'g'),
+        componentContent,
+      );
+    } catch (error) {
+      console.error(
+        `Error reading component file (${tagName}.html):`,
+        error.message,
+      );
+    }
+  }
+
+  return templateContent;
+}
+
 createProjectDistFolder();
