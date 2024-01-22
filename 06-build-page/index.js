@@ -26,7 +26,7 @@ async function copyDir() {
 }
 
 async function generateStylesBundle() {
-  const bundlePath = path.join(__dirname, 'project-dist', 'bundle.css');
+  const bundlePath = path.join(__dirname, 'project-dist', 'style.css');
   const stylesPath = path.join(__dirname, 'styles');
 
   try {
@@ -161,6 +161,8 @@ async function main() {
 
       // Call the function to write the modified template to index.html
       await writeModifiedTemplate(modifiedTemplate);
+      // Call the function to generate the styles bundle (style.css)
+      await generateStylesBundle();
     } else {
       console.log('Error: Unable to read template content.');
     }
