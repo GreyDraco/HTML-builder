@@ -1,25 +1,31 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-async function copyDir() {
-  const sourceFolderPath = path.join(__dirname, 'files');
-  const copyFolderPath = path.join(__dirname, 'files-copy');
-
+async function copyDir(sourceFolderPath, copyFolderPath) {
   try {
     // Create the copy folder if it doesn't exist
     await fs.mkdir(copyFolderPath, { recursive: true });
 
     // Read the contents of the source folder
-    const files = await fs.readdir(sourceFolderPath);
+    const items = await fs.readdir(sourceFolderPath, { withFileTypes: true });
 
-    // Copy each file from the source to the copy folder
-    for (const file of files) {
-      const sourceFilePath = path.join(sourceFolderPath, file);
-      const copyFilePath = path.join(copyFolderPath, file);
-      await fs.copyFile(sourceFilePath, copyFilePath);
+    // Copy each item from the source to the copy folder
+    for (const item of items) {
+      const sourceItemPath = path.join(sourceFolderPath, item.name);
+      const copyItemPath = path.join(copyFolderPath, item.name);
+
+      if (item.isDirectory()) {
+        // If it's a directory, recursively copy its contents
+        await copyDir(sourceItemPath, copyItemPath);
+      } else {
+        // If it's a file, copy it
+        await fs.copyFile(sourceItemPath, copyItemPath);
+      }
     }
 
-    console.log('Successes!');
+    console.log(
+      `Success: Copied folder ${sourceFolderPath} to ${copyFolderPath}`,
+    );
   } catch (err) {
     console.error('Error copying files:', err.message);
   }
@@ -163,6 +169,14 @@ async function main() {
       await writeModifiedTemplate(modifiedTemplate);
       // Call the function to generate the styles bundle (style.css)
       await generateStylesBundle();
+      // Call the function to copy assets to project-dist folder
+      const assetsSourceFolderPath = path.join(__dirname, 'assets');
+      const assetsCopyFolderPath = path.join(
+        __dirname,
+        'project-dist',
+        'assets',
+      );
+      await copyDir(assetsSourceFolderPath, assetsCopyFolderPath);
     } else {
       console.log('Error: Unable to read template content.');
     }
