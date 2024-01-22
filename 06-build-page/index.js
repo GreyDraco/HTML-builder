@@ -132,4 +132,41 @@ async function replaceTemplateTags(templateContent) {
   return templateContent;
 }
 
-createProjectDistFolder();
+async function writeModifiedTemplate(modifiedTemplate) {
+  const indexPath = path.join(__dirname, 'project-dist', 'index.html');
+
+  try {
+    // Write the modified template to the index.html file
+    await fs.writeFile(indexPath, modifiedTemplate, 'utf-8');
+    console.log('Modified template saved to index.html successfully');
+  } catch (error) {
+    console.error(
+      'Error writing modified template to index.html:',
+      error.message,
+    );
+  }
+}
+
+async function main() {
+  try {
+    // Call the function to create the project-dist folder
+    await createProjectDistFolder();
+
+    // Call the function to save the template content
+    const templateContent = await saveTemplate();
+
+    // Check if the template content is available
+    if (templateContent !== null) {
+      const modifiedTemplate = await replaceTemplateTags(templateContent);
+
+      // Call the function to write the modified template to index.html
+      await writeModifiedTemplate(modifiedTemplate);
+    } else {
+      console.log('Error: Unable to read template content.');
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+}
+
+main();
