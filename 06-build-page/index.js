@@ -22,10 +22,6 @@ async function copyDir(sourceFolderPath, copyFolderPath) {
         await fs.copyFile(sourceItemPath, copyItemPath);
       }
     }
-
-    console.log(
-      `Success: Copied folder ${sourceFolderPath} to ${copyFolderPath}`,
-    );
   } catch (err) {
     console.error('Error copying files:', err.message);
   }
@@ -57,8 +53,6 @@ async function generateStylesBundle() {
         `/* Source: ${fileName} */\n${fileContent}\n`,
       );
     });
-
-    console.log('Styles bundle created successfully!');
   } catch (error) {
     console.error('Error:', error.message);
   }
@@ -75,7 +69,6 @@ async function createProjectDistFolder() {
     if (error.code === 'ENOENT') {
       // If the folder doesn't exist, create it
       await fs.mkdir(projectDistPath);
-      console.log('project-dist folder created successfully.');
     } else {
       console.error('Error checking project-dist folder:', error.message);
     }
@@ -144,7 +137,6 @@ async function writeModifiedTemplate(modifiedTemplate) {
   try {
     // Write the modified template to the index.html file
     await fs.writeFile(indexPath, modifiedTemplate, 'utf-8');
-    console.log('Modified template saved to index.html successfully');
   } catch (error) {
     console.error(
       'Error writing modified template to index.html:',
