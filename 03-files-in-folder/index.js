@@ -11,7 +11,7 @@ function displayFileInfo() {
     }
 
     // Filter out directories, keeping only files
-    const fileNames = files.filter((file) => {
+    files.forEach((file) => {
       const filePath = path.join(folderPath, file);
       fs.stat(filePath, (statErr, stats) => {
         if (statErr) {
