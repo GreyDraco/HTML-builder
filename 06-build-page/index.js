@@ -93,13 +93,9 @@ function findTagNames(templateContent) {
   // Use a regular expression to find all template tags
   const tagRegex = /\{\{([^{}]+)\}\}/g;
   const tagMatches = templateContent.match(tagRegex);
-
   // Extract tag names from matches
   const tagNames = tagMatches
-    ? tagMatches.map((match) => {
-        // Remove double curly braces and trim whitespaces
-        return match.slice(2, -2).trim();
-      })
+    ? tagMatches.map((match) => match.slice(2, -2).trim())
     : [];
 
   return tagNames;
