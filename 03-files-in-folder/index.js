@@ -10,7 +10,6 @@ function displayFileInfo() {
       return;
     }
 
-    // Filter out directories, keeping only files
     files.forEach((file) => {
       const filePath = path.join(folderPath, file);
       fs.stat(filePath, (statErr, stats) => {

@@ -6,7 +6,6 @@ async function generateStylesBundle() {
   const stylesPath = path.join(__dirname, 'styles');
 
   try {
-    // Initialize or clear bundle.css
     await fs.writeFile(bundlePath, '');
 
     const styleFiles = await fs.readdir(stylesPath, {
@@ -18,7 +17,7 @@ async function generateStylesBundle() {
       const filePath = path.join(stylesPath, fileName);
 
       if (!styleFile.isFile() || path.extname(fileName) !== '.css') {
-        return; // Skip directories and non-CSS files
+        return;
       }
 
       const fileContent = await fs.readFile(filePath, 'utf-8');
