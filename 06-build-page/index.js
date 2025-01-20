@@ -18,7 +18,7 @@ async function copyDir(sourceFolderPath, copyFolderPath) {
       }
     }
   } catch (err) {
-    console.error('Error copying files:', err.message);
+    console.log(err.message);
   }
 }
 
@@ -48,7 +48,7 @@ async function generateStylesBundle() {
       );
     });
   } catch (error) {
-    console.error('Error:', error.message);
+    console.log(error.message);
   }
 }
 
@@ -62,7 +62,7 @@ async function createProjectDistFolder() {
     if (error.code === 'ENOENT') {
       await fs.mkdir(projectDistPath);
     } else {
-      console.error('Error checking project-dist folder:', error.message);
+      console.log(error.message);
     }
   }
 }
@@ -74,7 +74,7 @@ async function saveTemplate() {
     const templateContent = await fs.readFile(templatePath, 'utf-8');
     return templateContent;
   } catch (error) {
-    console.error('Error reading template file:', error.message);
+    console.log(error.message);
     return null;
   }
 }
@@ -101,10 +101,7 @@ async function replaceTemplateTags(templateContent) {
         componentContent,
       );
     } catch (error) {
-      console.error(
-        `Error reading component file (${tagName}.html):`,
-        error.message,
-      );
+      console.log(error.message);
     }
   }
 
@@ -117,10 +114,7 @@ async function writeModifiedTemplate(modifiedTemplate) {
   try {
     await fs.writeFile(indexPath, modifiedTemplate, 'utf-8');
   } catch (error) {
-    console.error(
-      'Error writing modified template to index.html:',
-      error.message,
-    );
+    console.log(error.message);
   }
 }
 
@@ -146,7 +140,7 @@ async function main() {
       console.log('Error: Unable to read template content.');
     }
   } catch (error) {
-    console.error('Error:', error.message);
+    console.log(error.message);
   }
 }
 

@@ -31,7 +31,7 @@ async function copyDir() {
 
     console.log('Successes!');
   } catch (err) {
-    console.error('Error copying files:', err.message);
+    console.log(err.message);
   }
 }
 

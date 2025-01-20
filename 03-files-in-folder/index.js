@@ -6,7 +6,7 @@ const folderPath = path.join(__dirname, 'secret-folder');
 function displayFileInfo() {
   fs.readdir(folderPath, (err, files) => {
     if (err) {
-      console.error('Error reading directory:', err.message);
+      console.log(err.message);
       return;
     }
 
@@ -14,7 +14,7 @@ function displayFileInfo() {
       const filePath = path.join(folderPath, file);
       fs.stat(filePath, (statErr, stats) => {
         if (statErr) {
-          console.error('Error checking file stats:', statErr.message);
+          console.log(statErr.message);
           return false;
         }
         if (stats.isFile()) {

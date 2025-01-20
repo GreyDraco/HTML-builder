@@ -30,6 +30,6 @@ process.on('SIGINT', () => {
 });
 
 process.on('uncaughtException', (err) => {
-  console.error('Uncaught Exception:', err.message);
+  console.log(err.message);
   process.exit(1);
 });
