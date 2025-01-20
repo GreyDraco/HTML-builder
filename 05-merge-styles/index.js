@@ -29,7 +29,7 @@ async function generateStylesBundle() {
 
     console.log('Styles bundle created successfully!');
   } catch (error) {
-    console.log('Error:', error.message);
+    console.log(error.message);
   }
 }
 
